@@ -1,6 +1,3 @@
-# Project site (dev):
-https://zhpadvoiski.github.io/restaurant-menu/
-
 # Restaurant Menu
 
 Dynamic Restaurant Menu app in javascript.

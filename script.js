@@ -60,9 +60,6 @@ function renderMenu() {
       console.log(filteredResult)
       renderData(filteredResult)
     }
-    let filterBtn = document.querySelectorAll('.filter-btn')
-    filterBtn.forEach(button => button.classList.remove('active'))
-    event.target.classList.add('active')
   })
 
 }

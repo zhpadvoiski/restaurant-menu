@@ -21,17 +21,19 @@ function renderData(data) {
   container.innerHTML = '';
   for (item of data) {
     container.innerHTML += `<article class="menu-item">
-        <img src=${item.img} class="photo" alt=${item.title} />
-        <div class="item-info">
-          <header>
+      <div class="image-container">
+         <img src=${item.img} class="photo" alt=${item.title} />
+         <button class='add-to-cart' id='${item.id}' onclick='addToCartHandler(window.event)'>Add to cart</button>
+      </div>
+      <div class="item-info">
+        <header>
             <h4>${item.title}</h4>
             <h4 class="price">${item.price}</h4>
-          </header>
-          <p class="item-text">
-            ${item.desc}
-          </p>
-          <button class='add-to-cart' id='${item.id}' onclick='addToCartHandler(window.event)'>Add to cart</button>
-        </div>
+        </header>
+        <p class="item-text">
+            ${item.desc.slice(1, -1)}
+         </p>
+      </div>
       </article>`
   }
 }
@@ -46,6 +48,8 @@ function addToCartHandler(event){
 
 
 let ShoppingCartitems = document.querySelector('.shopping-cart-items');
+let itemsAmount = document.querySelector('.badge');
+let total = document.querySelector('.total');
 
 function renderCartItems(){
   ShoppingCartitems.innerHTML = '';
@@ -58,6 +62,12 @@ function renderCartItems(){
            <span id=${item.id} class="item-delete"><i onclick="removeItem(window.event)" class="fas fa-trash-alt"></i></span>
          </li>`
   }
+  itemsAmount.innerHTML = '';
+  itemsAmount.innerHTML = cart.length;
+
+  let totalPrice = cart.reduce((accum, item) => { return accum + item.price} ,0)
+  total.innerHTML = '';
+  total.innerHTML = totalPrice.toFixed(2);
 }
  
 function removeItem(event){
@@ -103,6 +113,7 @@ function renderCategories() {
     buttonContainer.innerHTML += `<button class="filter-btn " type="button" data-id="${element}">${element}</button>`;
   }
 
+  buttonContainer.firstElementChild.classList.add('active');
   buttonContainer.addEventListener('click', (event) => { //filter functionality. adding eventlistener 
     if (event.target.tagName != 'BUTTON') {
       return;
@@ -118,7 +129,7 @@ function renderCategories() {
     renderData(filteredResult);
     renderPriceFilter();
 
-    let filterBtn = document.querySelectorAll('.filter-btn')
+    let filterBtn = document.querySelectorAll('.filter-btn');
     filterBtn.forEach(button => button.classList.remove('active'))
     event.target.classList.add('active')
   })

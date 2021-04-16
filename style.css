@@ -156,7 +156,7 @@ a:hover {
 }
 
 .shopping-cart-header {
-    border-bottom: 1px solid #E8E8E8;
+    /* border-bottom: 1px solid #E8E8E8; */
     padding-bottom: 15px;
 }
     
@@ -505,7 +505,7 @@ div.ui-slider{
 
 .add-to-cart:hover{
   cursor: pointer;
-  background-color: #ee6f08;
+  background-color: rgb(220, 148, 25);
   color: white;
 }
 

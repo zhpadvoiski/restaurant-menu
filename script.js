@@ -1,11 +1,12 @@
-// function renderdata
-
+//Global variables
 let result = [];
 let cart = [];
 let filteredResult = [];
+
 const container = document.querySelector('.section-center');
 
-async function loadDataOnLoad() { //initial function which trigged when page is loaded
+//Initial function which trigged when page is loaded
+async function loadDataOnLoad() { 
   filteredResult = result = await getData();
   renderData(result);
   renderCategories();
@@ -17,6 +18,7 @@ async function getData() {
   return await response.json();
 }
 
+//Rendering menu
 function renderData(data) {
   container.innerHTML = '';
   for (item of data) {
@@ -37,20 +39,22 @@ function renderData(data) {
       </article>`
   }
 }
+
+//When clicked on add to cart button, pushing items to the shopping cart
 function addToCartHandler(event){
   for(let menuItem of result){
-    if(menuItem.id === Number(event.target.id)){  //when clicked on add to cart, pushing item to the cart arr
+    if(menuItem.id === Number(event.target.id)){  
       cart.push(menuItem);
     }
   }
   renderCartItems();
 }
 
-
 let ShoppingCartitems = document.querySelector('.shopping-cart-items');
 let itemsAmount = document.querySelector('.badge');
 let total = document.querySelector('.total');
 
+//Rendering chosen menu items to the shopping cart, counting total price
 function renderCartItems(){
   ShoppingCartitems.innerHTML = '';
   for(let item of cart){
@@ -69,7 +73,8 @@ function renderCartItems(){
   total.innerHTML = '';
   total.innerHTML = totalPrice.toFixed(2);
 }
- 
+
+//Deleting menu items from the shopping cart
 function removeItem(event){
   for(let i = 0; i < cart.length; i++){
     if(event.target.parentNode.id == cart[i].id){
@@ -81,7 +86,7 @@ function removeItem(event){
   
 }
 
-// Shopping cart animation
+// Shopping cart transition effects
 (function(){
   $('.shopping-cart').each(function() {
     var delay = $(this).index() * 50 + 'ms';
@@ -101,6 +106,7 @@ function removeItem(event){
 
 const buttonContainer = document.querySelector('.btn-container');
 
+//Rendering menu items based on their category
 function renderCategories() {
   let categories = ['all'];
   result.forEach(menuItem => {
@@ -109,12 +115,12 @@ function renderCategories() {
     }
   })
 
-  for(let element of categories) {//add buttons to html
+  for(let element of categories) { //add menu-buttons to html
     buttonContainer.innerHTML += `<button class="filter-btn " type="button" data-id="${element}">${element}</button>`;
   }
 
   buttonContainer.firstElementChild.classList.add('active');
-  buttonContainer.addEventListener('click', (event) => { //filter functionality. adding eventlistener 
+  buttonContainer.addEventListener('click', (event) => { //filter functionality, adding eventlistener 
     if (event.target.tagName != 'BUTTON') {
       return;
     }
@@ -130,11 +136,12 @@ function renderCategories() {
     renderPriceFilter();
 
     let filterBtn = document.querySelectorAll('.filter-btn');
-    filterBtn.forEach(button => button.classList.remove('active'))
+    filterBtn.forEach(button => button.classList.remove('active')) // adding current active button
     event.target.classList.add('active')
   })
 }
 
+//Search functionality
 let search = document.querySelector('#searchBar');
 search.addEventListener('keyup',(e) => {
   const searchString= e.target.value.toLowerCase();
@@ -144,6 +151,7 @@ search.addEventListener('keyup',(e) => {
   renderData(foundMenu);
 });
 
+//Price filter
 function renderPriceFilter(){ // render price filter range
   const maxEdge = Math.floor(Math.max(...filteredResult.map(menuItem => menuItem.price)));
   const priceApprox = 10; // to determine bigger value for max than it is in result
